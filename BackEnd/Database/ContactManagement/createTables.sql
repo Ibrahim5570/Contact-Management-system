@@ -1,0 +1,39 @@
+USE ContactManagementDB
+
+CREATE TABLE users (
+	id				BIGINT IDENTITY(1,1) PRIMARY KEY,
+	first_name		NVARCHAR(100) NOT NULL,
+	last_name		NVARCHAR(100) NOT NULL,
+	email			NVARCHAR(100) NOT NULL UNIQUE,
+	phone_number	NVARCHAR(20),
+	password_hash	NVARCHAR(255) NOT NULL,
+	created_at		DATETIME2 NOT NULL DEFAULT GETDATE(),
+	updated_at		DATETIME2 NOT NULL DEFAULT GETDATE()
+);
+
+CREATE TABLE contacts (
+	id				BIGINT IDENTITY(1,1) PRIMARY KEY,
+	user_id			BIGINT NOT NULL,
+	first_name		NVARCHAR(100) NOT NULL,
+	last_name		NVARCHAR(100) NOT NULL,
+	title			NVARCHAR(100),
+	created_at		DATETIME2 NOT NULL DEFAULT GETDATE(),
+	updated_at		DATETIME2 NOT NULL DEFAULT GETDATE(),
+	CONSTRAINT fk_contacts_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE contact_emails (
+	id				BIGINT IDENTITY(1,1) PRIMARY KEY,
+	contact_id		BIGINT NOT NULL,
+	email			NVARCHAR(255) NOT NULL,
+	label			NVARCHAR(50) NOT NULL DEFAULT 'personal',
+	CONSTRAINT fk_emails_contact FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE
+);
+
+CREATE TABLE contact_phones (
+	id				BIGINT IDENTITY(1,1) PRIMARY KEY,
+	contact_id		BIGINT NOT NULL,
+	phone_number	NVARCHAR(20) NOT NULL,
+	label			NVARCHAR(50) NOT NULL DEFAULT 'personal',
+	CONSTRAINT fk_phones_contact FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE
+);
