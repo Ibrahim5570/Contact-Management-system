@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
-
+public class AuthController
+{
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
@@ -23,23 +22,22 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(
-            @Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request)
+    {
         logger.info("POST /api/auth/register");
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(
-            @Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request)
+    {
         logger.info("POST /api/auth/login");
         return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<String> changePassword(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @Valid @RequestBody ChangePasswordRequest request) {
+    public ResponseEntity<String> changePassword(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody ChangePasswordRequest request)
+    {
         logger.info("POST /api/auth/change-password");
         authService.changePassword(userDetails.getUsername(), request);
         return ResponseEntity.ok("Password changed successfully");

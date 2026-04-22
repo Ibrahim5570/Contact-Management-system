@@ -18,8 +18,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Contact {
 
+public class Contact
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

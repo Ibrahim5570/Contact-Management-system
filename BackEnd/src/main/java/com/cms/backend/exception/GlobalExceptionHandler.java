@@ -7,17 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler
+{
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex)
+    {
         logger.error("Runtime exception: {}", ex.getMessage());
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());
@@ -25,8 +26,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationException(
-            MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex)
+    {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(err ->
                 errors.put(err.getField(), err.getDefaultMessage()));
@@ -35,7 +36,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
+    public ResponseEntity<Map<String, String>> handleGenericException(Exception ex)
+    {
         logger.error("Unexpected error: {}", ex.getMessage());
         Map<String, String> error = new HashMap<>();
         error.put("error", "An unexpected error occurred");
