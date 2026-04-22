@@ -13,31 +13,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthService {
-
+public class AuthService
+{
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
-    public AuthService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder,
-                       JwtUtil jwtUtil,
-                       AuthenticationManager authenticationManager) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, AuthenticationManager authenticationManager)
+    {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
     }
 
-    public AuthResponse register(RegisterRequest request) {
-        logger.info("Registering new user with email: {}", request.getEmail());
+    public AuthResponse register(RegisterRequest request)
+    {
+        logger.info("Registering with email...: {}", request.getEmail());
 
-        if (userRepository.existsByEmail(request.getEmail())) {
-            logger.warn("Registration failed - email already exists: {}", request.getEmail());
-            throw new RuntimeException("Email already registered");
+        if (userRepository.existsByEmail(request.getEmail()))
+        {
+            logger.warn("Registration failed!! Email already registered: {}", request.getEmail());
+            throw new RuntimeException("Email already in use!");
         }
 
         User user = User.builder()
@@ -49,15 +48,16 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
-        logger.info("User registered successfully: {}", request.getEmail());
+        logger.info("User registered successfully!: {}", request.getEmail());
 
         String token = jwtUtil.generateToken(user.getEmail());
         return new AuthResponse(token, user.getEmail(),
                 user.getFirstName(), user.getLastName());
     }
 
-    public AuthResponse login(LoginRequest request) {
-        logger.info("Login attempt for user: {}", request.getEmail());
+    public AuthResponse login(LoginRequest request)
+    {
+        logger.info("Login attempt for: {}", request.getEmail());
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -65,22 +65,24 @@ public class AuthService {
         );
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
 
         String token = jwtUtil.generateToken(user.getEmail());
-        logger.info("User logged in successfully: {}", request.getEmail());
+        logger.info("Logged in successfully: {}", request.getEmail());
         return new AuthResponse(token, user.getEmail(),
                 user.getFirstName(), user.getLastName());
     }
 
-    public void changePassword(String email, ChangePasswordRequest request) {
-        logger.info("Password change request for user: {}", email);
+    public void changePassword(String email, ChangePasswordRequest request)
+    {
+        logger.info("Password change request for: {}", email);
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
 
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPasswordHash())) {
-            logger.warn("Password change failed - incorrect current password for: {}", email);
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPasswordHash()))
+        {
+            logger.warn("Password change failed! Incorrect current password for: {}", email);
             throw new RuntimeException("Current password is incorrect");
         }
 

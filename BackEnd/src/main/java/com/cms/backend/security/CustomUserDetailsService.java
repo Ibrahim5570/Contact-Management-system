@@ -10,10 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
-
+public class CustomUserDetailsService implements UserDetailsService
+{
     private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
-
     private final UserRepository userRepository;
 
     public CustomUserDetailsService(UserRepository userRepository) {
@@ -21,10 +20,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
+    {
         logger.info("Loading user by email: {}", email);
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> {
+                .orElseThrow(() ->
+                {
                     logger.error("User not found with email: {}", email);
                     return new UsernameNotFoundException("User not found with email: " + email);
                 });

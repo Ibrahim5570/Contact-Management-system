@@ -17,27 +17,25 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-public class JwtAuthFilter extends OncePerRequestFilter {
-
+public class JwtAuthFilter extends OncePerRequestFilter
+{
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
-
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
-    public JwtAuthFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+    public JwtAuthFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService)
+    {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
-
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
+    {
         final String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer "))
+        {
             filterChain.doFilter(request, response);
             return;
         }
@@ -45,20 +43,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String token = authHeader.substring(7);
         final String email;
 
-        try {
+        try
+        {
             email = jwtUtil.extractEmail(token);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             logger.error("Failed to extract email from token: {}", e.getMessage());
             filterChain.doFilter(request, response);
             return;
         }
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null)
+        {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-            if (jwtUtil.isTokenValid(token, userDetails.getUsername())) {
+            if (jwtUtil.isTokenValid(token, userDetails.getUsername()))
+            {
                 UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
                 logger.info("Authenticated user: {}", email);

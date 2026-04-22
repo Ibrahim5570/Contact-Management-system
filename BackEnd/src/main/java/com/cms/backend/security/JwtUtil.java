@@ -13,8 +13,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
-public class JwtUtil {
-
+public class JwtUtil
+{
     private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
     @Value("${jwt.secret}")
@@ -22,12 +22,12 @@ public class JwtUtil {
 
     @Value("${jwt.expiration}")
     private long jwtExpiration;
-
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String email)
+    {
         logger.info("Generating JWT token for user: {}", email);
         return Jwts.builder()
                 .subject(email)
@@ -41,11 +41,15 @@ public class JwtUtil {
         return extractClaims(token).getSubject();
     }
 
-    public boolean isTokenValid(String token, String email) {
-        try {
+    public boolean isTokenValid(String token, String email)
+    {
+        try
+        {
             String extractedEmail = extractEmail(token);
             return extractedEmail.equals(email) && !isTokenExpired(token);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             logger.error("JWT token validation failed: {}", e.getMessage());
             return false;
         }
@@ -55,7 +59,8 @@ public class JwtUtil {
         return extractClaims(token).getExpiration().before(new Date());
     }
 
-    private Claims extractClaims(String token) {
+    private Claims extractClaims(String token)
+    {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
