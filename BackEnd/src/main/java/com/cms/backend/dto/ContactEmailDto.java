@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class ContactEmailDto {
+public class ContactEmailDto
+{
     private Long id;
 
     @NotBlank(message = "Email required!")
