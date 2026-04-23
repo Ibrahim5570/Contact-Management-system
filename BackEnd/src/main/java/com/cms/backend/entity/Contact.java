@@ -47,8 +47,10 @@ public class Contact
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<ContactEmail> emails = new ArrayList<>();
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<ContactPhone> phones = new ArrayList<>();
 }
