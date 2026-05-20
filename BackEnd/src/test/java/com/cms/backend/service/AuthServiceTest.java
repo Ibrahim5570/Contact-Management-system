@@ -87,7 +87,7 @@ class AuthServiceTest {
         RuntimeException exception = assertThrows(RuntimeException.class,
                 () -> authService.register(request));
 
-        assertEquals("Email already registered", exception.getMessage());
+        assertEquals("Email already in use!", exception.getMessage());
         verify(userRepo, never()).save(any(User.class));
     }
 
