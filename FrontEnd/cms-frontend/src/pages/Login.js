@@ -87,7 +87,7 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f0f2f5',
+        backgroundColor: '#1a472d',
     },
     card: {
         backgroundColor: 'white',
@@ -99,7 +99,7 @@ const styles = {
     },
     title: {
         textAlign: 'center',
-        color: '#1a73e8',
+        color: '#26c370',
         marginBottom: '8px',
         fontSize: '24px',
     },
@@ -140,7 +140,7 @@ const styles = {
     button: {
         width: '100%',
         padding: '12px',
-        backgroundColor: '#1a73e8',
+        backgroundColor: '#2b633f',
         color: 'white',
         border: 'none',
         borderRadius: '6px',
@@ -151,7 +151,7 @@ const styles = {
     linkText: {
         textAlign: 'center',
         marginTop: '20px',
-        color: '#666',
+        color: '#b82626',
         fontSize: '14px',
     },
     link: {
