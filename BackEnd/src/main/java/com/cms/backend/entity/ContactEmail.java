@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ContactEmail {
-
+public class ContactEmail
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

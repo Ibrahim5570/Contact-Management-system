@@ -18,8 +18,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Contact {
 
+public class Contact
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,8 +47,10 @@ public class Contact {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<ContactEmail> emails = new ArrayList<>();
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<ContactPhone> phones = new ArrayList<>();
 }

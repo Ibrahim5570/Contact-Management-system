@@ -1,12 +1,52 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\Contact-Management-system\\BackEnd\\Database\\ContactManagement\\",
-  "Documents": [],
+  "WorkspaceRootPath": "D:\\10p Intern app\\Contact-Management-system\\BackEnd\\Database\\ContactManagement\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\10p Intern app\\Contact-Management-system\\BackEnd\\Database\\ContactManagement\\createTables.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:createTables.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\10p Intern app\\Contact-Management-system\\BackEnd\\Database\\ContactManagement\\createDB.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:createDB.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "createTables.sql - not connected",
+              "DocumentMoniker": "D:\\10p Intern app\\Contact-Management-system\\BackEnd\\Database\\ContactManagement\\createTables.sql",
+              "RelativeDocumentMoniker": "createTables.sql",
+              "ToolTip": "D:\\10p Intern app\\Contact-Management-system\\BackEnd\\Database\\ContactManagement\\createTables.sql - not connected",
+              "RelativeToolTip": "createTables.sql - not connected",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-04-11T06:22:02.758Z",
+              "EditorCaption": " - not connected"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "createDB.sql - not connected",
+              "DocumentMoniker": "D:\\10p Intern app\\Contact-Management-system\\BackEnd\\Database\\ContactManagement\\createDB.sql",
+              "RelativeDocumentMoniker": "createDB.sql",
+              "ToolTip": "D:\\10p Intern app\\Contact-Management-system\\BackEnd\\Database\\ContactManagement\\createDB.sql - not connected",
+              "RelativeToolTip": "createDB.sql - not connected",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-04-11T06:21:24.654Z",
+              "EditorCaption": " - not connected"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
