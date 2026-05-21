@@ -2,12 +2,101 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { contactsAPI } from '../services/api';
 
-function Contacts()
-{
+function ContactForm({ formData, formError, formLoading, onSubmit, onClose,
+                         onFormChange, onEmailChange, onPhoneChange, onAddEmail, onRemoveEmail,
+                         onAddPhone, onRemovePhone, title, submitLabel }) {
+
+    return (
+        <div style={styles.overlay}>
+            <div style={styles.modal}>
+                <div style={styles.modalHeader}>
+                    <h2 style={styles.modalTitle}>{title}</h2>
+                    <button onClick={onClose} style={styles.closeBtn}>✕</button>
+                </div>
+
+                {formError && <div style={styles.error}>{formError}</div>}
+
+                <form onSubmit={onSubmit}>
+                    <div style={styles.row}>
+                        <div style={styles.formGroup}>
+                            <label style={styles.label}>First Name *</label>
+                            <input name="firstName" value={formData.firstName}
+                                   onChange={onFormChange} style={styles.input}
+                                   placeholder="First name" required />
+                        </div>
+                        <div style={styles.formGroup}>
+                            <label style={styles.label}>Last Name *</label>
+                            <input name="lastName" value={formData.lastName}
+                                   onChange={onFormChange} style={styles.input}
+                                   placeholder="Last name" required />
+                        </div>
+                    </div>
+
+                    <div style={styles.formGroup}>
+                        <label style={styles.label}>Title</label>
+                        <input name="title" value={formData.title}
+                               onChange={onFormChange} style={styles.input}
+                               placeholder="e.g. Mr, Dr, Prof" />
+                    </div>
+
+                    <div style={styles.sectionLabel}>Email Addresses</div>
+                    {formData.emails.map((email, index) => (
+                        <div key={index} style={styles.multiRow}>
+                            <input value={email.email}
+                                   onChange={(e) => onEmailChange(index, 'email', e.target.value)}
+                                   style={{ ...styles.input, flex: 2 }} placeholder="Email address" type="email" />
+                            <select value={email.label}
+                                    onChange={(e) => onEmailChange(index, 'label', e.target.value)}
+                                    style={{ ...styles.input, flex: 1 }}>
+                                <option value="work">Work</option>
+                                <option value="personal">Personal</option>
+                                <option value="other">Other</option>
+                            </select>
+                            {formData.emails.length > 1 && (
+                                <button type="button" onClick={() => onRemoveEmail(index)} style={styles.removeBtn}>✕</button>
+                            )}
+                        </div>
+                    ))}
+                    <button type="button" onClick={onAddEmail} style={styles.addBtn}>+ Add Email</button>
+
+                    <div style={styles.sectionLabel}>Phone Numbers</div>
+                    {formData.phones.map((phone, index) => (
+                        <div key={index} style={styles.multiRow}>
+                            <input value={phone.phoneNumber}
+                                   onChange={(e) => onPhoneChange(index, 'phoneNumber', e.target.value)}
+                                   style={{ ...styles.input, flex: 2 }} placeholder="Phone number" />
+                            <select value={phone.label}
+                                    onChange={(e) => onPhoneChange(index, 'label', e.target.value)}
+                                    style={{ ...styles.input, flex: 1 }}>
+                                <option value="mobile">Mobile</option>
+                                <option value="work">Work</option>
+                                <option value="home">Home</option>
+                                <option value="personal">Personal</option>
+                                <option value="other">Other</option>
+                            </select>
+                            {formData.phones.length > 1 && (
+                                <button type="button" onClick={() => onRemovePhone(index)} style={styles.removeBtn}>✕</button>
+                            )}
+                        </div>
+                    ))}
+                    <button type="button" onClick={onAddPhone} style={styles.addBtn}>+ Add Phone</button>
+
+                    <div style={styles.modalFooter}>
+                        <button type="button" onClick={onClose} style={styles.cancelBtn}>Cancel</button>
+                        <button type="submit" style={styles.submitBtn} disabled={formLoading}>
+                            {formLoading ? 'Saving...' : submitLabel}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+function Contacts() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-    // State
     const [contacts, setContacts] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
@@ -15,14 +104,12 @@ function Contacts()
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // Form state
     const emptyForm = {
         firstName: '', lastName: '', title: '',
         emails: [{ email: '', label: 'work' }],
         phones: [{ phoneNumber: '', label: 'mobile' }],
     };
 
-    // Modal state
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -31,7 +118,6 @@ function Contacts()
     const [formError, setFormError] = useState('');
     const [formLoading, setFormLoading] = useState(false);
 
-    // Fetch contacts
     const fetchContacts = useCallback(async () => {
         setLoading(true);
         try {
@@ -49,13 +135,11 @@ function Contacts()
         fetchContacts();
     }, [fetchContacts]);
 
-    // Search with debounce
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
         setCurrentPage(0);
     };
 
-    // Form helpers
     const handleFormChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -88,7 +172,6 @@ function Contacts()
         setFormData({ ...formData, phones: formData.phones.filter((_, i) => i !== index) });
     };
 
-    // Create contact
     const handleCreate = async (e) => {
         e.preventDefault();
         setFormError('');
@@ -105,7 +188,6 @@ function Contacts()
         }
     };
 
-    // Edit contact
     const openEditModal = (contact) => {
         setSelectedContact(contact);
         setFormData({
@@ -133,7 +215,6 @@ function Contacts()
         }
     };
 
-    // Delete contact
     const openDeleteModal = (contact) => {
         setSelectedContact(contact);
         setShowDeleteModal(true);
@@ -161,92 +242,8 @@ function Contacts()
         setSelectedContact(null);
     };
 
-    // Contact form (used by create and edit)
-    const ContactForm = ({ onSubmit, title, submitLabel }) => (
-        <div style={styles.overlay}>
-            <div style={styles.modal}>
-                <div style={styles.modalHeader}>
-                    <h2 style={styles.modalTitle}>{title}</h2>
-                    <button onClick={closeModals} style={styles.closeBtn}>✕</button>
-                </div>
-
-                {formError && <div style={styles.error}>{formError}</div>}
-
-                <form onSubmit={onSubmit}>
-                    <div style={styles.row}>
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>First Name *</label>
-                            <input name="firstName" value={formData.firstName}
-                                   onChange={handleFormChange} style={styles.input}
-                                   placeholder="First name" required />
-                        </div>
-                        <div style={styles.formGroup}>
-                            <label style={styles.label}>Last Name *</label>
-                            <input name="lastName" value={formData.lastName}
-                                   onChange={handleFormChange} style={styles.input}
-                                   placeholder="Last name" required />
-                        </div>
-                    </div>
-
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Title</label>
-                        <input name="title" value={formData.title}
-                               onChange={handleFormChange} style={styles.input}
-                               placeholder="e.g. Mr, Dr, Prof" />
-                    </div>
-
-                    <div style={styles.sectionLabel}>Email Addresses</div>
-                    {formData.emails.map((email, index) => (
-                        <div key={index} style={styles.multiRow}>
-                            <input value={email.email} onChange={(e) => handleEmailChange(index, 'email', e.target.value)}
-                                   style={{ ...styles.input, flex: 2 }} placeholder="Email address" type="email" />
-                            <select value={email.label} onChange={(e) => handleEmailChange(index, 'label', e.target.value)}
-                                    style={{ ...styles.input, flex: 1 }}>
-                                <option value="work">Work</option>
-                                <option value="personal">Personal</option>
-                                <option value="other">Other</option>
-                            </select>
-                            {formData.emails.length > 1 && (
-                                <button type="button" onClick={() => removeEmail(index)} style={styles.removeBtn}>✕</button>
-                            )}
-                        </div>
-                    ))}
-                    <button type="button" onClick={addEmail} style={styles.addBtn}>+ Add Email</button>
-
-                    <div style={styles.sectionLabel}>Phone Numbers</div>
-                    {formData.phones.map((phone, index) => (
-                        <div key={index} style={styles.multiRow}>
-                            <input value={phone.phoneNumber} onChange={(e) => handlePhoneChange(index, 'phoneNumber', e.target.value)}
-                                   style={{ ...styles.input, flex: 2 }} placeholder="Phone number" />
-                            <select value={phone.label} onChange={(e) => handlePhoneChange(index, 'label', e.target.value)}
-                                    style={{ ...styles.input, flex: 1 }}>
-                                <option value="mobile">Mobile</option>
-                                <option value="work">Work</option>
-                                <option value="home">Home</option>
-                                <option value="personal">Personal</option>
-                                <option value="other">Other</option>
-                            </select>
-                            {formData.phones.length > 1 && (
-                                <button type="button" onClick={() => removePhone(index)} style={styles.removeBtn}>✕</button>
-                            )}
-                        </div>
-                    ))}
-                    <button type="button" onClick={addPhone} style={styles.addBtn}>+ Add Phone</button>
-
-                    <div style={styles.modalFooter}>
-                        <button type="button" onClick={closeModals} style={styles.cancelBtn}>Cancel</button>
-                        <button type="submit" style={styles.submitBtn} disabled={formLoading}>
-                            {formLoading ? 'Saving...' : submitLabel}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-
     return (
         <div style={styles.page}>
-            {/* Navbar */}
             <nav style={styles.navbar}>
                 <span style={styles.navBrand}>Contact Manager</span>
                 <div style={styles.navRight}>
@@ -256,7 +253,6 @@ function Contacts()
                 </div>
             </nav>
 
-            {/* Main content */}
             <div style={styles.content}>
                 <div style={styles.topBar}>
                     <h1 style={styles.pageTitle}>My Contacts</h1>
@@ -265,7 +261,6 @@ function Contacts()
                     </button>
                 </div>
 
-                {/* Search */}
                 <div style={styles.searchBar}>
                     <input
                         type="text" value={search} onChange={handleSearchChange}
@@ -276,11 +271,9 @@ function Contacts()
 
                 {error && <div style={styles.error}>{error}</div>}
 
-                {/* Contacts list */}
                 {loading ? (
                     <div style={styles.loading}>Loading contacts...</div>
                 ) : contacts.length === 0 ? (
-                    // Edge-case where new user would have 0 contacts
                     <div style={styles.empty}>
                         {search ? `No contacts found for "${search}"` : 'No contacts yet. Create your first one!'}
                     </div>
@@ -318,7 +311,6 @@ function Contacts()
                     </div>
                 )}
 
-                {/* Pagination */}
                 {totalPages > 1 && (
                     <div style={styles.pagination}>
                         <button onClick={() => setCurrentPage(p => p - 1)}
@@ -330,11 +322,27 @@ function Contacts()
                 )}
             </div>
 
-            {/* Modals */}
-            {showCreateModal && <ContactForm onSubmit={handleCreate} title="Create New Contact" submitLabel="Create Contact" />}
-            {showEditModal && <ContactForm onSubmit={handleEdit} title="Update Contact" submitLabel="Save Changes" />}
+            {showCreateModal && (
+                <ContactForm
+                    formData={formData} formError={formError} formLoading={formLoading}
+                    onSubmit={handleCreate} onClose={closeModals} onFormChange={handleFormChange}
+                    onEmailChange={handleEmailChange} onPhoneChange={handlePhoneChange}
+                    onAddEmail={addEmail} onRemoveEmail={removeEmail}
+                    onAddPhone={addPhone} onRemovePhone={removePhone}
+                    title="Create New Contact" submitLabel="Create Contact"
+                />
+            )}
+            {showEditModal && (
+                <ContactForm
+                    formData={formData} formError={formError} formLoading={formLoading}
+                    onSubmit={handleEdit} onClose={closeModals} onFormChange={handleFormChange}
+                    onEmailChange={handleEmailChange} onPhoneChange={handlePhoneChange}
+                    onAddEmail={addEmail} onRemoveEmail={removeEmail}
+                    onAddPhone={addPhone} onRemovePhone={removePhone}
+                    title="Update Contact" submitLabel="Save Changes"
+                />
+            )}
 
-            {/* Delete confirmation modal */}
             {showDeleteModal && (
                 <div style={styles.overlay}>
                     <div style={{ ...styles.modal, maxWidth: '400px' }}>
@@ -361,7 +369,7 @@ function Contacts()
 const styles = {
     page: { minHeight: '100vh', backgroundColor: '#f0f2f5' },
     navbar: {
-        backgroundColor: '#1a73e8', color: 'white',
+        backgroundColor: '#092717', color: 'white',
         padding: '0 24px', height: '60px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
@@ -383,7 +391,7 @@ const styles = {
     topBar: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' },
     pageTitle: { fontSize: '24px', color: '#333', margin: 0 },
     createBtn: {
-        padding: '10px 20px', backgroundColor: '#1a73e8',
+        padding: '10px 20px', backgroundColor: '#26c370',
         color: 'white', border: 'none', borderRadius: '8px',
         cursor: 'pointer', fontSize: '14px', fontWeight: '500',
     },
@@ -412,7 +420,7 @@ const styles = {
     },
     contactAvatar: {
         width: '48px', height: '48px', borderRadius: '50%',
-        backgroundColor: '#1a73e8', color: 'white',
+        backgroundColor: '#092717', color: 'white',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: '16px', fontWeight: 'bold', flexShrink: 0,
     },
@@ -422,13 +430,13 @@ const styles = {
     contactDetail: { fontSize: '13px', color: '#666', marginBottom: '2px' },
     labelBadge: {
         marginLeft: '6px', padding: '1px 6px',
-        backgroundColor: '#e8f0fe', color: '#1a73e8',
+        backgroundColor: '#e8f0fe', color: '#092717',
         borderRadius: '10px', fontSize: '11px',
     },
     contactActions: { display: 'flex', gap: '8px' },
     editBtn: {
         padding: '6px 14px', backgroundColor: '#e8f0fe',
-        color: '#1a73e8', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px',
+        color: '#092717', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px',
     },
     deleteBtn: {
         padding: '6px 14px', backgroundColor: '#fce8e6',
@@ -482,7 +490,7 @@ const styles = {
         borderRadius: '4px', cursor: 'pointer', padding: '6px 10px', flexShrink: 0,
     },
     addBtn: {
-        background: 'none', border: '1px dashed #1a73e8', color: '#1a73e8',
+        background: 'none', border: '1px dashed #092717', color: '#092717',
         borderRadius: '6px', cursor: 'pointer', padding: '6px 12px',
         fontSize: '13px', marginBottom: '8px',
     },
@@ -492,7 +500,7 @@ const styles = {
         border: '1px solid #ddd', borderRadius: '6px', cursor: 'pointer',
     },
     submitBtn: {
-        padding: '9px 20px', backgroundColor: '#1a73e8',
+        padding: '9px 20px', backgroundColor: '#092717',
         color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer',
     },
 };
