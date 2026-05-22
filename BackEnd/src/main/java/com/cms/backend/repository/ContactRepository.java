@@ -9,8 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContactRepository extends JpaRepository<Contact, Long>
-{
+public interface ContactRepository extends JpaRepository<Contact, Long> {
 
     Page<Contact> findByUserId(Long userId, Pageable pageable);
 
