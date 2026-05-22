@@ -9,52 +9,50 @@ import org.springframework.data.domain.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ContactService
-{
+public class ContactService {
 
     private static final Logger logger = LoggerFactory.getLogger(ContactService.class);
 
     private final ContactRepository contactRepository;
     private final UserRepository userRepository;
 
-    public ContactService(ContactRepository contactRepository, UserRepository userRepository)
-    {
+    public ContactService(ContactRepository contactRepository,
+                          UserRepository userRepository) {
         this.contactRepository = contactRepository;
         this.userRepository = userRepository;
     }
 
-    public Page<ContactResponse> getContacts(String email, String search, int page, int size)
-    {
+    @Transactional(readOnly = true)
+    public Page<ContactResponse> getContacts(String email, String search,
+                                             int page, int size) {
         logger.info("Getting contacts for: {}", email);
         User user = getUser(email);
         Pageable pageable = PageRequest.of(page, size, Sort.by("firstName").ascending());
 
         Page<Contact> contacts;
-        if (search != null && !search.trim().isEmpty())
-        {
-            contacts = contactRepository.searchByUserIdAndName(user.getId(), search.trim(), pageable);
-        }
-        else
-        {
+        if (search != null && !search.trim().isEmpty()) {
+            contacts = contactRepository.searchByUserIdAndName(
+                    user.getId(), search.trim(), pageable);
+        } else {
             contacts = contactRepository.findByUserId(user.getId(), pageable);
         }
 
         return contacts.map(this::mapToResponse);
     }
 
-    public ContactResponse getContactById(String email, Long contactId)
-    {
+    @Transactional(readOnly = true)
+    public ContactResponse getContactById(String email, Long contactId) {
         logger.info("Getting contact {} for: {}", contactId, email);
         User user = getUser(email);
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() -> new RuntimeException("Contact not found"));
 
-        if (!contact.getUser().getId().equals(user.getId()))
-        {
+        if (!contact.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("Access denied!");
         }
 
@@ -62,8 +60,7 @@ public class ContactService
     }
 
     @Transactional
-    public ContactResponse createContact(String email, ContactRequest request)
-    {
+    public ContactResponse createContact(String email, ContactRequest request) {
         logger.info("Creating contact for: {}", email);
         User user = getUser(email);
 
@@ -74,8 +71,7 @@ public class ContactService
                 .title(request.getTitle())
                 .build();
 
-        if (request.getEmails() != null)
-        {
+        if (request.getEmails() != null) {
             List<ContactEmail> emails = request.getEmails().stream()
                     .map(dto -> ContactEmail.builder()
                             .contact(contact)
@@ -86,8 +82,7 @@ public class ContactService
             contact.getEmails().addAll(emails);
         }
 
-        if (request.getPhones() != null)
-        {
+        if (request.getPhones() != null) {
             List<ContactPhone> phones = request.getPhones().stream()
                     .map(dto -> ContactPhone.builder()
                             .contact(contact)
@@ -104,15 +99,14 @@ public class ContactService
     }
 
     @Transactional
-    public ContactResponse updateContact(String email, Long contactId, ContactRequest request)
-    {
+    public ContactResponse updateContact(String email, Long contactId,
+                                         ContactRequest request) {
         logger.info("Updating contact {} for: {}", contactId, email);
         User user = getUser(email);
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() -> new RuntimeException("Contact not found!"));
 
-        if (!contact.getUser().getId().equals(user.getId()))
-        {
+        if (!contact.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("Access denied!");
         }
 
@@ -121,8 +115,7 @@ public class ContactService
         contact.setTitle(request.getTitle());
 
         contact.getEmails().clear();
-        if (request.getEmails() != null)
-        {
+        if (request.getEmails() != null) {
             request.getEmails().forEach(dto -> contact.getEmails().add(
                     ContactEmail.builder()
                             .contact(contact)
@@ -132,8 +125,7 @@ public class ContactService
         }
 
         contact.getPhones().clear();
-        if (request.getPhones() != null)
-        {
+        if (request.getPhones() != null) {
             request.getPhones().forEach(dto -> contact.getPhones().add(
                     ContactPhone.builder()
                             .contact(contact)
@@ -148,15 +140,13 @@ public class ContactService
     }
 
     @Transactional
-    public void deleteContact(String email, Long contactId)
-    {
+    public void deleteContact(String email, Long contactId) {
         logger.info("Deleting contact {} for: {}", contactId, email);
         User user = getUser(email);
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() -> new RuntimeException("Contact not found!"));
 
-        if (!contact.getUser().getId().equals(user.getId()))
-        {
+        if (!contact.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("Access denied!");
         }
 
@@ -164,14 +154,13 @@ public class ContactService
         logger.info("Contact deleted: {}", contactId);
     }
 
-    private User getUser(String email)
-    {
+    private User getUser(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "User not found: " + email));
     }
 
-    private ContactResponse mapToResponse(Contact contact)
-    {
+    private ContactResponse mapToResponse(Contact contact) {
         ContactResponse response = new ContactResponse();
         response.setId(contact.getId());
         response.setFirstName(contact.getFirstName());
