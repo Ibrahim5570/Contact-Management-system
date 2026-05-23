@@ -25,13 +25,20 @@ public class UserController
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<Map<String, String>> getProfile(@AuthenticationPrincipal UserDetails userDetails)
-    {
+    public ResponseEntity<Map<String, String>> getProfile(
+            @AuthenticationPrincipal UserDetails userDetails) {
         logger.info("GET /api/user/profile for: {}", userDetails.getUsername());
-        User user = userRepository.findByEmail(userDetails.getUsername())
+
+        String identifier = userDetails.getUsername();
+        User user = userRepository.findByEmail(identifier)
+                .or(() -> userRepository.findByPhoneNumber(identifier))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return ResponseEntity.ok(Map.of("firstName", user.getFirstName(), "lastName", user.getLastName(), "email", user.getEmail(), "phoneNumber", user.getPhoneNumber() != null ? user.getPhoneNumber() : ""
+        return ResponseEntity.ok(Map.of(
+                "firstName", user.getFirstName(),
+                "lastName", user.getLastName(),
+                "email", user.getEmail() != null ? user.getEmail() : "",
+                "phoneNumber", user.getPhoneNumber() != null ? user.getPhoneNumber() : ""
         ));
     }
 }
