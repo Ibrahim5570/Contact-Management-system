@@ -18,6 +18,10 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        if (!formData.email && !formData.phoneNumber) {
+            setError('Please provide either an email or phone number');
+            return;
+        }
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
             return;
@@ -74,16 +78,16 @@ function Register() {
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label style={styles.label}>Email</label>
+                        <label style={styles.label}>Email <span style={{color:'#999', fontWeight:'normal'}}>(or use phone below)</span></label>
                         <input
                             type="email" name="email"
                             value={formData.email} onChange={handleChange}
-                            style={styles.input} placeholder="Enter your email" required
+                            style={styles.input} placeholder="Enter your email"
                         />
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label style={styles.label}>Phone Number (optional)</label>
+                        <label style={styles.label}>Phone Number <span style={{color:'#999', fontWeight:'normal'}}>(or use email above)</span></label>
                         <input
                             type="text" name="phoneNumber"
                             value={formData.phoneNumber} onChange={handleChange}

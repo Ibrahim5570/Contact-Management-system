@@ -4,7 +4,7 @@ import { authAPI } from '../services/api';
 
 function Login() {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [formData, setFormData] = useState({ identifier: '', password: '' });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -42,14 +42,14 @@ function Login() {
 
                 <form onSubmit={handleSubmit}>
                     <div style={styles.formGroup}>
-                        <label style={styles.label}>Email</label>
+                        <label style={styles.label}>Email or Phone Number</label>
                         <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
+                            type="text"
+                            name="identifier"
+                            value={formData.identifier}
                             onChange={handleChange}
                             style={styles.input}
-                            placeholder="Enter your email"
+                            placeholder="Email or phone number"
                             required
                         />
                     </div>
