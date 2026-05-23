@@ -154,10 +154,11 @@ public class ContactService {
         logger.info("Contact deleted: {}", contactId);
     }
 
-    private User getUser(String email) {
-        return userRepository.findByEmail(email)
+    private User getUser(String identifier) {
+        return userRepository.findByEmail(identifier)
+                .or(() -> userRepository.findByPhoneNumber(identifier))
                 .orElseThrow(() -> new UsernameNotFoundException(
-                        "User not found: " + email));
+                        "User not found: " + identifier));
     }
 
     private ContactResponse mapToResponse(Contact contact) {
