@@ -29,30 +29,41 @@ public class AuthService
         this.authenticationManager = authenticationManager;
     }
 
-    public AuthResponse register(RegisterRequest request)
-    {
-        logger.info("Registering with email...: {}", request.getEmail());
+    public AuthResponse register(RegisterRequest request) {
+        logger.info("Registering new user with email/phone: {} / {}",
+                request.getEmail(), request.getPhoneNumber());
 
-        if (userRepository.existsByEmail(request.getEmail()))
-        {
-            logger.warn("Registration failed!! Email already registered: {}", request.getEmail());
+        // Validate that at least one identifier is provided
+        boolean hasEmail = request.getEmail() != null && !request.getEmail().isBlank();
+        boolean hasPhone = request.getPhoneNumber() != null && !request.getPhoneNumber().isBlank();
+
+        if (!hasEmail && !hasPhone) {
+            throw new RuntimeException("Either email or phone number is required");
+        }
+
+        // Check for duplicates
+        if (hasEmail && userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already in use!");
+        }
+        if (hasPhone && userRepository.existsByPhoneNumber(request.getPhoneNumber())) {
+            throw new RuntimeException("Phone number already in use!");
         }
 
         User user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
-                .email(request.getEmail())
-                .phoneNumber(request.getPhoneNumber())
+                .email(hasEmail ? request.getEmail() : null)
+                .phoneNumber(hasPhone ? request.getPhoneNumber() : null)
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .build();
 
         userRepository.save(user);
-        logger.info("User registered successfully!: {}", request.getEmail());
+        logger.info("User registered successfully!");
 
-        String token = jwtUtil.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getEmail(),
-                user.getFirstName(), user.getLastName());
+        // Use email if available, otherwise phone as the JWT subject
+        String identifier = hasEmail ? user.getEmail() : user.getPhoneNumber();
+        String token = jwtUtil.generateToken(identifier);
+        return new AuthResponse(token, user.getEmail(), user.getFirstName(), user.getLastName());
     }
 
     public AuthResponse login(LoginRequest request)
