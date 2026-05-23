@@ -66,22 +66,22 @@ public class AuthService
         return new AuthResponse(token, user.getEmail(), user.getFirstName(), user.getLastName());
     }
 
-    public AuthResponse login(LoginRequest request)
-    {
-        logger.info("Login attempt for: {}", request.getEmail());
+    public AuthResponse login(LoginRequest request) {
+        logger.info("Login attempt for: {}", request.getIdentifier());
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(), request.getPassword())
+                        request.getIdentifier(), request.getPassword())
         );
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+        User user = userRepository.findByEmail(request.getIdentifier())
+                .or(() -> userRepository.findByPhoneNumber(request.getIdentifier()))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        String token = jwtUtil.generateToken(user.getEmail());
-        logger.info("Logged in successfully: {}", request.getEmail());
-        return new AuthResponse(token, user.getEmail(),
-                user.getFirstName(), user.getLastName());
+        String identifier = user.getEmail() != null ? user.getEmail() : user.getPhoneNumber();
+        String token = jwtUtil.generateToken(identifier);
+        logger.info("Logged in successfully: {}", request.getIdentifier());
+        return new AuthResponse(token, user.getEmail(), user.getFirstName(), user.getLastName());
     }
 
     public void changePassword(String email, ChangePasswordRequest request)
