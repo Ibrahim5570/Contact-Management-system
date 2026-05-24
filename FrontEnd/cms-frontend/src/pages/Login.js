@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
+import { authStyles as styles } from '../styles/authStyles';
 
 function Login() {
     const navigate = useNavigate();
@@ -80,84 +81,5 @@ function Login() {
         </div>
     );
 }
-
-const styles = {
-    container: {
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#1a472d',
-    },
-    card: {
-        backgroundColor: 'white',
-        padding: '40px',
-        borderRadius: '12px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-        width: '100%',
-        maxWidth: '420px',
-    },
-    title: {
-        textAlign: 'center',
-        color: '#26c370',
-        marginBottom: '8px',
-        fontSize: '24px',
-    },
-    subtitle: {
-        textAlign: 'center',
-        color: '#333',
-        marginBottom: '24px',
-        fontSize: '18px',
-        fontWeight: 'normal',
-    },
-    error: {
-        backgroundColor: '#fce8e6',
-        color: '#c5221f',
-        padding: '12px',
-        borderRadius: '6px',
-        marginBottom: '16px',
-        fontSize: '14px',
-    },
-    formGroup: {
-        marginBottom: '16px',
-    },
-    label: {
-        display: 'block',
-        marginBottom: '6px',
-        color: '#555',
-        fontSize: '14px',
-        fontWeight: '500',
-    },
-    input: {
-        width: '100%',
-        padding: '10px 12px',
-        border: '1px solid #ddd',
-        borderRadius: '6px',
-        fontSize: '14px',
-        boxSizing: 'border-box',
-        outline: 'none',
-    },
-    button: {
-        width: '100%',
-        padding: '12px',
-        backgroundColor: '#2b633f',
-        color: 'white',
-        border: 'none',
-        borderRadius: '6px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        marginTop: '8px',
-    },
-    linkText: {
-        textAlign: 'center',
-        marginTop: '20px',
-        color: '#b82626',
-        fontSize: '14px',
-    },
-    link: {
-        color: '#1a73e8',
-        textDecoration: 'none',
-    },
-};
 
 export default Login;
