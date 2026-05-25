@@ -94,6 +94,12 @@
 			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
+        <!-- CSV Export/Import bonus feature-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.10.0</version>
+        </dependency>
 	</dependencies>
 
 	<build>

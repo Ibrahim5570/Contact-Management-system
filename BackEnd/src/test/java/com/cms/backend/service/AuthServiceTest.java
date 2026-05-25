@@ -94,7 +94,7 @@ class AuthServiceTest {
     @Test
     void login_ShouldReturnAuthResponse_WhenValidCredentials() {
         LoginRequest request = new LoginRequest();
-        request.setEmail("ibrahim@test.com");
+        request.setIdentifier("ibrahim@test.com");
         request.setPassword("test123");
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
@@ -112,7 +112,7 @@ class AuthServiceTest {
     @Test
     void login_ShouldThrowException_WhenUserNotFound() {
         LoginRequest request = new LoginRequest();
-        request.setEmail("notfound@test.com");
+        request.setIdentifier("notfound@test.com");
         request.setPassword("test123");
 
         when(authenticationManager.authenticate(any())).thenReturn(null);
