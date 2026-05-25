@@ -241,6 +241,46 @@ function Contacts() {
         setFormError('');
         setSelectedContact(null);
     };
+    const handleExport = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/contacts/export', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'contacts.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            setError('Export failed');
+        }
+    };
+
+    const handleImport = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            const response = await fetch('http://localhost:8080/api/contacts/import', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: formData
+            });
+            const result = await response.json();
+            alert(`Import complete! Imported: ${result.imported}, Skipped: ${result.skipped}`);
+            fetchContacts();
+        } catch (err) {
+            setError('Import failed');
+        }
+        e.target.value = '';
+    };
 
     return (
         <div style={styles.page}>
@@ -256,9 +296,20 @@ function Contacts() {
             <div style={styles.content}>
                 <div style={styles.topBar}>
                     <h1 style={styles.pageTitle}>My Contacts</h1>
-                    <button onClick={() => { setFormData(emptyForm); setShowCreateModal(true); }} style={styles.createBtn}>
-                        + New Contact
-                    </button>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <button onClick={handleExport} style={styles.exportBtn}>
+                            ↓ Export CSV
+                        </button>
+                        <label style={styles.importBtn}>
+                            ↑ Import CSV
+                            <input type="file" accept=".csv"
+                                   onChange={handleImport} style={{ display: 'none' }} />
+                        </label>
+                        <button onClick={() => { setFormData(emptyForm); setShowCreateModal(true); }}
+                                style={styles.createBtn}>
+                            + New Contact
+                        </button>
+                    </div>
                 </div>
 
                 <div style={styles.searchBar}>
@@ -502,6 +553,17 @@ const styles = {
     submitBtn: {
         padding: '9px 20px', backgroundColor: '#092717',
         color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer',
+    },
+    exportBtn: {
+        padding: '10px 16px', backgroundColor: 'white',
+        color: '#092717', border: '1px solid #092717',
+        borderRadius: '8px', cursor: 'pointer', fontSize: '14px',
+    },
+    importBtn: {
+        padding: '10px 16px', backgroundColor: 'white',
+        color: '#092717', border: '1px solid #092717',
+        borderRadius: '8px', cursor: 'pointer', fontSize: '14px',
+        display: 'inline-flex', alignItems: 'center',
     },
 };
 
