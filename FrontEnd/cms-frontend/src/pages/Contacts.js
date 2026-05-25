@@ -298,10 +298,10 @@ function Contacts() {
                     <h1 style={styles.pageTitle}>My Contacts</h1>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <button onClick={handleExport} style={styles.exportBtn}>
-                            ↓ Export CSV
+                            Export CSV
                         </button>
                         <label style={styles.importBtn}>
-                            ↑ Import CSV
+                            Import CSV
                             <input type="file" accept=".csv"
                                    onChange={handleImport} style={{ display: 'none' }} />
                         </label>
