@@ -1,11 +1,10 @@
-#👤📇 Contact Management System
+# 👤📇 Contact Management System
 
 ![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?style=for-the-badge&logo=springboot)
 ![React](https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-Database-CC2927?style=for-the-badge&logo=microsoftsqlserver)
 ![JWT](https://img.shields.io/badge/Auth-JWT-black?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)
 
 A modern full-stack **Contact Management Application** built with **Spring Boot** and **React.js** during a Java internship at **10P Shine**.
 
