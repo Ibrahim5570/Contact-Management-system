@@ -1,4 +1,4 @@
-# 👤📇 Contact Management System
+# Contact Management System
 
 ![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?style=for-the-badge&logo=springboot)
@@ -12,57 +12,57 @@ The application allows users to securely manage contacts with authentication, pa
 
 ---
 
-# ✨ Features
+#  Features
 
 | Feature | Description |
 |---|---|
-| 🔐 JWT Authentication | Secure stateless authentication using Spring Security |
-| 👤 User Accounts | Register and login using email or phone number |
-| 📇 Contact Management | Create, update, delete, and manage contacts |
-| 📱 Multiple Phone Numbers | Store multiple labeled phone numbers |
-| 📧 Multiple Emails | Store multiple labeled email addresses |
-| 🔍 Search & Pagination | Quickly find contacts with pagination support |
-| 📤 CSV Export | Export contacts into CSV files |
-| 📥 CSV Import | Bulk import contacts from CSV |
-| 🛡️ Validation & Security | Input validation and protected endpoints |
-| 🧪 Unit Testing | JUnit 5 and Mockito service-layer tests |
-| 📊 Code Quality | SonarCloud integration for static analysis |
+|  JWT Authentication | Secure stateless authentication using Spring Security |
+|  User Accounts | Register and login using email or phone number |
+|  Contact Management | Create, update, delete, and manage contacts |
+|  Multiple Phone Numbers | Store multiple labeled phone numbers |
+|  Multiple Emails | Store multiple labeled email addresses |
+|  Search & Pagination | Quickly find contacts with pagination support |
+|  CSV Export | Export contacts into CSV files |
+|  CSV Import | Bulk import contacts from CSV |
+|  Validation & Security | Input validation and protected endpoints |
+|  Unit Testing | JUnit 5 and Mockito service-layer tests |
+|  Code Quality | SonarCloud integration for static analysis |
 
 ---
 
-# 🖼️ Application Preview
+#  Application Preview
 
-## 🔑 Login Page
+##  Login Page
 
 ![Login](screenshots/login.jpg)
 
 ---
 
-## 📇 Contacts Dashboard
+##  Contacts Dashboard
 
 ![Dashboard](screenshots/dashboard.jpg)
 
 ---
 
-## ➕ Add Contact Form
+##  Add Contact Form
 
 ![Contact Form](screenshots/contact-form.jpg)
 
 ---
 
-## 👤 User Profile
+##  User Profile
 
 ![Profile](screenshots/profile.jpg)
 
 ---
 
-# 🏗️ System Architecture
+#  System Architecture
 
 ![Architecture](screenshots/architecture.png)
 
 ---
 
-# 🛠️ Tech Stack
+#  Tech Stack
 
 ## Backend
 - Java 17
@@ -83,7 +83,7 @@ The application allows users to securely manage contacts with authentication, pa
 
 ---
 
-# 📂 Project Structure
+#  Project Structure
 
 ```text
 Contact-Management-system/
@@ -110,7 +110,7 @@ Contact-Management-system/
 
 ---
 
-# ⚙️ Getting Started
+#  Getting Started
 
 ## Prerequisites
 
@@ -123,22 +123,22 @@ Make sure you have installed:
 
 ---
 
-# 🗄️ Database Setup
+#  Database Setup
 
-## 1️⃣ Create Database
+## 1. Create Database
 
 ```sql
 CREATE DATABASE ContactManagementDB;
 ```
 
-## 2️⃣ Create SQL Login
+## 2. Create SQL Login
 
 ```sql
 CREATE LOGIN cms_user
 WITH PASSWORD = 'YourPassword';
 ```
 
-## 3️⃣ Run Schema Script
+## 3. Run Schema Script
 
 Run:
 
@@ -150,7 +150,7 @@ using SQL Server Management Studio (SSMS).
 
 ---
 
-# 🚀 Backend Setup
+#  Backend Setup
 
 ## Navigate to Backend
 
@@ -182,7 +182,7 @@ http://localhost:8080
 
 ---
 
-# 💻 Frontend Setup
+#  Frontend Setup
 
 ## Navigate to Frontend
 
@@ -210,7 +210,7 @@ http://localhost:3000
 
 ---
 
-# 📡 API Endpoints
+#  API Endpoints
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
@@ -227,7 +227,7 @@ http://localhost:3000
 
 ---
 
-# 📡 Sample API Request
+#  Sample API Request
 
 ## Login Request
 
@@ -251,7 +251,7 @@ Content-Type: application/json
 
 ---
 
-# 🧪 Running Tests
+#  Running Tests
 
 ```bash
 cd BackEnd
@@ -264,11 +264,11 @@ Current unit tests cover:
 
 ---
 
-# 📊 Code Quality
+#  Code Quality
 
 Code quality is monitored using **SonarCloud**.
 
-🔗 SonarCloud Report:
+ SonarCloud Report:
 
 https://sonarcloud.io/project/overview?id=Ibrahim5570_Contact-Management-system
 
@@ -276,7 +276,7 @@ https://sonarcloud.io/project/overview?id=Ibrahim5570_Contact-Management-system
 
 ---
 
-# 📚 Lessons Learned
+#  Lessons Learned
 
 During this project, I learned:
 
@@ -290,18 +290,18 @@ During this project, I learned:
 
 ---
 
-# 🚀 Future Improvements
+#  Future Improvements
 
-- 🐳 Docker support
-- ☁️ Cloud deployment
-- 🔄 CI/CD pipeline
-- 👥 Role-based access control
-- 🖼️ Contact profile pictures
-- 📱 Mobile responsive UI improvements
+-  Docker support
+-  Cloud deployment
+-  CI/CD pipeline
+-  Role-based access control
+-  Contact profile pictures
+-  Mobile responsive UI improvements
 
 ---
 
-# 👨‍💻 Author
+#  Author
 
 Developed by **Ibrahim** as part of a Java Internship project at **10P Shine**.
 
