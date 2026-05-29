@@ -18,13 +18,15 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// Redirect to login if token expires
+// Redirect to login if token expires + updated at line 28/29 to gracefully handle token expiry via message
 api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
+            // Set a flag so the login page can show a message
+            sessionStorage.setItem('sessionExpired', 'true');
             window.location.href = '/login';
         }
         return Promise.reject(error);
