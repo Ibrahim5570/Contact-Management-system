@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { authStyles as styles } from '../styles/authStyles';
+import Spinner from '../components/Spinner';
 
 function Login() {
     const navigate = useNavigate();
@@ -69,6 +70,7 @@ function Login() {
                     </div>
 
                     <button type="submit" style={styles.button} disabled={loading}>
+                        {loading && <Spinner />}
                         {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                 </form>
