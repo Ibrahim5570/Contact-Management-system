@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { authStyles as styles } from '../styles/authStyles';
+import Spinner from '../components/Spinner';
 
 function Register() {
     const navigate = useNavigate();
@@ -115,6 +116,7 @@ function Register() {
                     </div>
 
                     <button type="submit" style={styles.button} disabled={loading}>
+                        {loading && <Spinner />}
                         {loading ? 'Creating account...' : 'Create Account'}
                     </button>
                 </form>
