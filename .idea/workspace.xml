@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9e98df6b-c77e-40ed-b6b8-5afc42733e72" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/pages/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/pages/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/services/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/services/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/styles/authStyles.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/styles/authStyles.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +37,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.Spinner.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
