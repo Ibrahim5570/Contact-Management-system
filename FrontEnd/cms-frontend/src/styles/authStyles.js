@@ -69,4 +69,12 @@ export const authStyles = {
         fontSize: '14px',
     },
     link: { color: '#092717', textDecoration: 'none' },
+    warning: {
+        backgroundColor: '#fff3cd',
+        color: '#856404',
+        padding: '12px',
+        borderRadius: '6px',
+        marginBottom: '16px',
+        fontSize: '14px',
+    },
 };
