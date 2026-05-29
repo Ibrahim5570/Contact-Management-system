@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { authStyles as styles } from '../styles/authStyles';
@@ -9,6 +9,16 @@ function Login() {
     const [formData, setFormData] = useState({ identifier: '', password: '' });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    // Show session expired message if redirected from expired token
+    const [sessionExpired, setSessionExpired] = useState(false);
+
+    useEffect(() => {
+        if (sessionStorage.getItem('sessionExpired')) {
+            setSessionExpired(true);
+            sessionStorage.removeItem('sessionExpired');
+        }
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,6 +49,11 @@ function Login() {
             <div style={styles.card}>
                 <h1 style={styles.title}>Contact Manager</h1>
                 <h2 style={styles.subtitle}>Sign In</h2>
+                {sessionExpired && (
+                    <div style={styles.warning}>
+                        Your session has expired. Please sign in again.
+                    </div>
+                )}
 
                 {error && <div style={styles.error}>{error}</div>}
 
