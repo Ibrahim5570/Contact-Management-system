@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9e98df6b-c77e-40ed-b6b8-5afc42733e72" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/components/Spinner.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/components/Spinner.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/pages/Contacts.js" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/cms-frontend/src/pages/Contacts.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +42,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "feature/ui-polish",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2026.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",

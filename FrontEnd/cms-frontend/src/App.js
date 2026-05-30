@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Contacts from './pages/Contacts';
 import Profile from './pages/Profile';
+import PropTypes from 'prop-types';
 
 function App() {
   const isAuthenticated = () => {
@@ -12,6 +13,9 @@ function App() {
 
   const ProtectedRoute = ({ children }) => {
     return isAuthenticated() ? children : <Navigate to="/login" />;
+  };
+  ProtectedRoute.propTypes = {
+    children: PropTypes.node.isRequired,
   };
 
   return (

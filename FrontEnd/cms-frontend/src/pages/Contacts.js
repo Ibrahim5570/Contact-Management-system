@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { contactsAPI } from '../services/api';
 import Spinner from '../components/Spinner';
+import PropTypes from 'prop-types';
 
 function ContactForm({ formData, formError, formLoading, onSubmit, onClose,
                          onFormChange, onEmailChange, onPhoneChange, onAddEmail, onRemoveEmail,
@@ -93,6 +94,22 @@ function ContactForm({ formData, formError, formLoading, onSubmit, onClose,
         </div>
     );
 }
+ContactForm.propTypes = {
+    formData: PropTypes.object.isRequired,
+    formError: PropTypes.string,
+    formLoading: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onFormChange: PropTypes.func.isRequired,
+    onEmailChange: PropTypes.func.isRequired,
+    onPhoneChange: PropTypes.func.isRequired,
+    onAddEmail: PropTypes.func.isRequired,
+    onRemoveEmail: PropTypes.func.isRequired,
+    onAddPhone: PropTypes.func.isRequired,
+    onRemovePhone: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    submitLabel: PropTypes.string.isRequired,
+};
 
 function Contacts() {
     const navigate = useNavigate();

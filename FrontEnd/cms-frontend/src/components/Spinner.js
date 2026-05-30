@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Spinner({ size = 10, color = 'blue' }) {
     return (
@@ -16,4 +17,8 @@ function Spinner({ size = 10, color = 'blue' }) {
     );
 }
 
+Spinner.propTypes = {
+    size: PropTypes.number,
+    color: PropTypes.string,
+};
 export default Spinner;
