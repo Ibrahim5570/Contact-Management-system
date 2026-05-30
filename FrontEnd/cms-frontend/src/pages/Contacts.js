@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { contactsAPI } from '../services/api';
+import Spinner from '../components/Spinner';
 
 function ContactForm({ formData, formError, formLoading, onSubmit, onClose,
                          onFormChange, onEmailChange, onPhoneChange, onAddEmail, onRemoveEmail,
                          onAddPhone, onRemovePhone, title, submitLabel }) {
-
     return (
         <div style={styles.overlay}>
             <div style={styles.modal}>
@@ -84,6 +84,7 @@ function ContactForm({ formData, formError, formLoading, onSubmit, onClose,
                     <div style={styles.modalFooter}>
                         <button type="button" onClick={onClose} style={styles.cancelBtn}>Cancel</button>
                         <button type="submit" style={styles.submitBtn} disabled={formLoading}>
+                            {formLoading && <Spinner size={14} color="white" />}
                             {formLoading ? 'Saving...' : submitLabel}
                         </button>
                     </div>
@@ -99,6 +100,7 @@ function Contacts() {
 
     const [contacts, setContacts] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
+    const [totalContacts, setTotalContacts] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false);
@@ -124,6 +126,7 @@ function Contacts() {
             const response = await contactsAPI.getContacts(currentPage, 10, search);
             setContacts(response.data.content);
             setTotalPages(response.data.totalPages);
+            setTotalContacts(response.data.totalElements);
         } catch (err) {
             setError('Failed to load contacts.');
         } finally {
@@ -241,12 +244,11 @@ function Contacts() {
         setFormError('');
         setSelectedContact(null);
     };
+
     const handleExport = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/contacts/export', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
@@ -263,15 +265,13 @@ function Contacts() {
     const handleImport = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        const formData = new FormData();
-        formData.append('file', file);
+        const importData = new FormData();
+        importData.append('file', file);
         try {
             const response = await fetch('http://localhost:8080/api/contacts/import', {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: formData
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                body: importData
             });
             const result = await response.json();
             alert(`Import complete! Imported: ${result.imported}, Skipped: ${result.skipped}`);
@@ -285,7 +285,12 @@ function Contacts() {
     return (
         <div style={styles.page}>
             <nav style={styles.navbar}>
-                <span style={styles.navBrand}>Contact Manager</span>
+                <span style={styles.navBrand}>
+                    Contact Manager
+                    {totalContacts > 0 && (
+                        <span style={styles.countBadge}>{totalContacts}</span>
+                    )}
+                </span>
                 <div style={styles.navRight}>
                     <span style={styles.navUser}>{user.firstName} {user.lastName}</span>
                     <button onClick={() => navigate('/profile')} style={styles.navBtn}>Profile</button>
@@ -297,9 +302,7 @@ function Contacts() {
                 <div style={styles.topBar}>
                     <h1 style={styles.pageTitle}>My Contacts</h1>
                     <div style={{ display: 'flex', gap: '10px' }}>
-                        <button onClick={handleExport} style={styles.exportBtn}>
-                            Export CSV
-                        </button>
+                        <button onClick={handleExport} style={styles.exportBtn}>Export CSV</button>
                         <label style={styles.importBtn}>
                             Import CSV
                             <input type="file" accept=".csv"
@@ -406,7 +409,10 @@ function Contacts() {
                         </p>
                         <div style={styles.modalFooter}>
                             <button onClick={closeModals} style={styles.cancelBtn}>Cancel</button>
-                            <button onClick={handleDelete} style={{ ...styles.submitBtn, backgroundColor: '#d93025' }} disabled={formLoading}>
+                            <button onClick={handleDelete}
+                                    style={{ ...styles.submitBtn, backgroundColor: '#d93025' }}
+                                    disabled={formLoading}>
+                                {formLoading && <Spinner size={14} color="white" />}
                                 {formLoading ? 'Deleting...' : 'Delete Contact'}
                             </button>
                         </div>
@@ -445,6 +451,23 @@ const styles = {
         padding: '10px 20px', backgroundColor: '#26c370',
         color: 'white', border: 'none', borderRadius: '8px',
         cursor: 'pointer', fontSize: '14px', fontWeight: '500',
+    },
+    exportBtn: {
+        padding: '10px 16px', backgroundColor: 'white',
+        color: '#092717', border: '1px solid #092717',
+        borderRadius: '8px', cursor: 'pointer', fontSize: '14px',
+    },
+    importBtn: {
+        padding: '10px 16px', backgroundColor: 'white',
+        color: '#092717', border: '1px solid #092717',
+        borderRadius: '8px', cursor: 'pointer', fontSize: '14px',
+        display: 'inline-flex', alignItems: 'center',
+    },
+    countBadge: {
+        marginLeft: '10px', backgroundColor: '#26c370',
+        color: 'white', borderRadius: '12px',
+        padding: '2px 10px', fontSize: '12px',
+        fontWeight: '600', verticalAlign: 'middle',
     },
     searchBar: { marginBottom: '20px' },
     searchInput: {
@@ -553,16 +576,6 @@ const styles = {
     submitBtn: {
         padding: '9px 20px', backgroundColor: '#092717',
         color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer',
-    },
-    exportBtn: {
-        padding: '10px 16px', backgroundColor: 'white',
-        color: '#092717', border: '1px solid #092717',
-        borderRadius: '8px', cursor: 'pointer', fontSize: '14px',
-    },
-    importBtn: {
-        padding: '10px 16px', backgroundColor: 'white',
-        color: '#092717', border: '1px solid #092717',
-        borderRadius: '8px', cursor: 'pointer', fontSize: '14px',
         display: 'inline-flex', alignItems: 'center',
     },
 };
