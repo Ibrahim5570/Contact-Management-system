@@ -285,12 +285,7 @@ function Contacts() {
     return (
         <div style={styles.page}>
             <nav style={styles.navbar}>
-                <span style={styles.navBrand}>
-                    Contact Manager
-                    {totalContacts > 0 && (
-                        <span style={styles.countBadge}>{totalContacts}</span>
-                    )}
-                </span>
+                <span style={styles.navBrand}>Contact Manager</span>
                 <div style={styles.navRight}>
                     <span style={styles.navUser}>{user.firstName} {user.lastName}</span>
                     <button onClick={() => navigate('/profile')} style={styles.navBtn}>Profile</button>
@@ -300,7 +295,10 @@ function Contacts() {
 
             <div style={styles.content}>
                 <div style={styles.topBar}>
-                    <h1 style={styles.pageTitle}>My Contacts</h1>
+                    <span><h1 style={styles.pageTitle}>My Contacts</h1>
+                        {totalContacts > 0 && (
+                            <span style={styles.countBadge}>{totalContacts}</span>
+                        )}</span>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <button onClick={handleExport} style={styles.exportBtn}>Export CSV</button>
                         <label style={styles.importBtn}>
