@@ -258,7 +258,7 @@ cd BackEnd
 mvn test
 ```
 
-**38 unit tests** across 6 test classes — all passing.
+**38 unit tests** across 6 test classes (all passing).
 
 | Test Class | Tests | What's Covered |
 |---|---|---|
