@@ -13,9 +13,9 @@ class JwtUtilTest {
     @BeforeEach
     void setUp() {
         jwtUtil = new JwtUtil();
-        ReflectionTestUtils.setField(jwtUtil, "secret",
+        ReflectionTestUtils.setField(jwtUtil, "jwtSecret",
                 "test-secret-key-must-be-at-least-32-characters-long");
-        ReflectionTestUtils.setField(jwtUtil, "expiration", 86400000L);
+        ReflectionTestUtils.setField(jwtUtil, "jwtExpiration", 86400000L);
     }
 
     @Test
@@ -26,10 +26,10 @@ class JwtUtilTest {
     }
 
     @Test
-    void extractEmail_ShouldReturnCorrectUsername() {
+    void extractEmail_ShouldReturnCorrectEmail() {
         String token = jwtUtil.generateToken("ibrahim@test.com");
-        String username = jwtUtil.extractEmail(token);
-        assertEquals("ibrahim@test.com", username);
+        String email = jwtUtil.extractEmail(token);
+        assertEquals("ibrahim@test.com", email);
     }
 
     @Test
@@ -39,7 +39,7 @@ class JwtUtilTest {
     }
 
     @Test
-    void isTokenValid_ShouldReturnFalse_ForWrongUsername() {
+    void isTokenValid_ShouldReturnFalse_ForWrongEmail() {
         String token = jwtUtil.generateToken("ibrahim@test.com");
         assertFalse(jwtUtil.isTokenValid(token, "other@test.com"));
     }
@@ -54,7 +54,7 @@ class JwtUtilTest {
     @Test
     void extractEmail_ShouldWorkWithPhoneNumber() {
         String token = jwtUtil.generateToken("03001234567");
-        String username = jwtUtil.extractEmail(token);
-        assertEquals("03001234567", username);
+        String extracted = jwtUtil.extractEmail(token);
+        assertEquals("03001234567", extracted);
     }
 }
