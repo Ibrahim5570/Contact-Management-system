@@ -280,7 +280,7 @@ Code quality is monitored using **SonarCloud**.
 
 https://sonarcloud.io/project/overview?id=Ibrahim5570_Contact-Management-system
 
-![Sonarqube Assesment Summary](screenshots/sq.jpg)
+![Sonarqube Assesment Summary](screenshots/sq_updated.jpg)
 
 ---
 
