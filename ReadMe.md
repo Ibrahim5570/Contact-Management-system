@@ -258,9 +258,17 @@ cd BackEnd
 mvn test
 ```
 
-Current unit tests cover:
-- Authentication Service
-- Contact Service
+**38 unit tests** across 6 test classes — all passing.
+
+| Test Class | Tests | What's Covered |
+|---|---|---|
+| AuthServiceTest | 6 | Register, login, change password (email-based) |
+| AuthServicePhoneTest | 5 | Phone registration, phone login, duplicate phone, no identifier |
+| ContactServiceTest | 7 | Get contacts, search, create, get by ID, not found, delete |
+| ContactServiceUpdateTest | 6 | Update contact, access control, delete by wrong user |
+| ExportImportServiceTest | 7 | CSV export, import valid rows, skip invalid rows, multi-user isolation |
+| JwtUtilTest | 6 | Token generation, email extraction, token validation, phone tokens |
+| **Total** | **38** | **Full service and security layer coverage** |
 
 ---
 
@@ -285,7 +293,8 @@ During this project, I learned:
 - Designing relational database schemas
 - Handling CSV import/export functionality
 - Managing frontend-backend communication with Axios
-- Writing maintainable unit tests with Mockito
+- Writing maintainable unit tests with JUnit 5 and Mockito
+- Testing security and access control scenarios
 - Structuring scalable full-stack applications
 
 ---
