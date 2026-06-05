@@ -214,8 +214,8 @@ http://localhost:3000
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
-| POST | `/api/auth/register` | Register new user | ✅ |
-| POST | `/api/auth/login` | User login | ✅ |
+| POST | `/api/auth/register` | Register new user | ❌ |
+| POST | `/api/auth/login` | User login | ❌ |
 | POST | `/api/auth/change-password` | Change password | ✅ |
 | GET | `/api/contacts` | Get paginated contacts | ✅ |
 | POST | `/api/contacts` | Create contact | ✅ |
@@ -236,7 +236,7 @@ POST /api/auth/login
 Content-Type: application/json
 
 {
-  "email": "john@example.com",
+  "identifier": "john@example.com",
   "password": "password123"
 }
 ```
